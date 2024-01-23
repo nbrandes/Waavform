@@ -27,7 +27,9 @@ Add a dependency in your `Package.swift`
 
 ## Usage
 
-Initialize `Waavform` with the name and the extension of an audio file.
+First add an audio file to your project. 
+
+Initialize `Waavform` with the name and the extension of the audio file.
 
 ```swift
 Waavform(audio: "TheMoon", type: "mp3")
@@ -47,8 +49,8 @@ Optional: \
 
 `cursor: Color` - (Default .blue) - color used for the selection cursor \
 `playhead: Color` - (Default .red) - color used for the playhead \
-`progress: Color` - (Default darkGray) - color used for waavform progress \
-`backing: Color` - (Default lightGray) - color used for waavform background \
+`progress: Color` - (Default Color(red: 0.290, green: 0.310, blue: 0.337)) - color used for waavform progress \
+`backing: Color` - (Default Color(red: 0.875, green: 0.878, blue: 0.898)) - color used for waavform background \
  `timeText: Color` - (Default .white) - color used for current and duration time \
 `timeBg: Color` - (Default .black) - color used for current and duration time background \
 `control: Color`- (Default .gray) - color used for transport buttons
