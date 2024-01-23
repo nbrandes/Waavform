@@ -11,7 +11,7 @@ import AVFoundation
 import SwiftUI
 import Waveform
 
-@available(iOS 16.0, *)
+@available(iOS 17.0, *)
 private class WaavformModel: ObservableObject {
     
     @Published private(set) var duration: TimeInterval = 1.0
@@ -77,7 +77,7 @@ private class WaavformModel: ObservableObject {
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 17.0, *)
 @available(macOS 14.0, *)
 public struct Waavform: View {
     
