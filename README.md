@@ -37,8 +37,8 @@ Waavform(audio: "TheMoon", type: "mp3")
 
 `Waavform` can be initialized with the following parameters
 
-Required:
-`audio: String` - name of the audio file
+Required: \
+`audio: String` - name of the audio file \
 `type: String` - extension of the audio file
 
 Optional: \
