@@ -90,9 +90,9 @@ public struct Waavform: View {
     @State var seekingLocation: Double = 0
     @State var isPlaying: Bool = false
     
-    var cursor: Color = Color("progress")
+    var cursor: Color = .blue
     var playhead: Color = .red
-    var progress: Color = Color("progress")
+    var progress: Color = .blue
     var backing: Color = .gray
     var timeText: Color = .white
     var timeBg: Color = .black
