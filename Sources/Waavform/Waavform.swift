@@ -109,8 +109,8 @@ public struct Waavform: View {
                 hideTransport: Bool = false,
                 cursor: Color = .blue,
                 playhead: Color = .red,
-                progress: Color = .progress,
-                backing: Color = .background,
+                progress: Color = Color(red: 0.290, green: 0.310, blue: 0.337),
+                backing: Color = Color(red: 0.875, green: 0.878, blue: 0.898),
                 timeText: Color = .white,
                 timeBg: Color = .black,
                 control: Color = .gray) {

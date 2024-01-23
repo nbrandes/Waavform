@@ -23,7 +23,7 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "Waavform",
-            dependencies: ["Waveform"],
-            resources: [.copy("Assets/progress"), .copy("Assets/background")]),
+            dependencies: ["Waveform"]
+        ),
     ]
 )
