@@ -43,7 +43,7 @@ Required: \
 
 Optional: \
 `category: AVAudioSession.Category` - (Default .playback) - category used for the AVAudioSession \
-`hideTransport: Bool` - (Default false) - show or hide the playback controls \
+`hideTransport: Bool` - (Default false) - show or hide the playback controls
 
 `cursor: Color` - (Default .blue) - color used for the selection cursor \
 `playhead: Color` - (Default .red) - color used for the playhead \
@@ -54,10 +54,6 @@ Optional: \
 `control: Color`- (Default .gray) - color used for transport buttons
                                     
                                     
-                                    
-```swift
-Waavform(views, height: 400, color: .red, scroll: true)
-```
 
 ## Example
 
