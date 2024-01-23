@@ -1,6 +1,6 @@
-# SwiftUI Waavform
+# Waavform
 
-Waveform based audio player, for SwiftUI
+A simple waveform based audio player, for SwiftUI.
 
 <img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/waavform.gif />
 
@@ -27,7 +27,7 @@ Add a dependency in your `Package.swift`
 
 ## Usage
 
-Initialize `Waavform` with an array of views
+Initialize `Waavform` with the name and the extension of an audio file.
 
 ```swift
 Waavform(audio: "TheMoon", type: "mp3")
@@ -44,8 +44,7 @@ Required:
 Optional: \
 `category: AVAudioSession.Category` - (Default .playback) - category used for the AVAudioSession \
 `hideTransport: Bool` - (Default false) - show or hide the playback controls \
-                                    
-Colors
+
 `cursor: Color` - (Default .blue) - color used for the selection cursor \
 `playhead: Color` - (Default .red) - color used for the playhead \
 `progress: Color` - (Default darkGray) - color used for waavform progress \
