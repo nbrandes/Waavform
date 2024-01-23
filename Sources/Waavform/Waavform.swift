@@ -90,9 +90,9 @@ public struct Waavform: View {
     @State var seekingLocation: Double = 0
     @State var isPlaying: Bool = false
     
-    var cursor: Color = .progress
+    var cursor: Color = Color("progress")
     var playhead: Color = .red
-    var progress: Color = .progress
+    var progress: Color = Color("progress")
     var backing: Color = .gray
     var timeText: Color = .white
     var timeBg: Color = .black
@@ -109,8 +109,8 @@ public struct Waavform: View {
                 hideTransport: Bool = false,
                 cursor: Color = .blue,
                 playhead: Color = .red,
-                progress: Color = Color.waavformColors.removeFirst(),
-                backing: Color = Color.waavformColors.removeFirst(),
+                progress: Color = Color("progress"),
+                backing: Color = Color("background"),
                 timeText: Color = .white,
                 timeBg: Color = .black,
                 control: Color = .gray) {
@@ -293,10 +293,4 @@ public struct Waavform: View {
     }
 }
 
-public extension Color {
-    static var waavformColors: [Color] = [
-        Color.progress,
-        Color.background
-    ]
-}
 #endif
