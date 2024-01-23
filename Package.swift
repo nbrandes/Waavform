@@ -24,6 +24,6 @@ let package = Package(
         .target(
             name: "Waavform",
             dependencies: ["Waveform"],
-            resources: [.process("Assets")]),
+            resources: [.copy("Assets/progress"), .copy("Assets/background")]),
     ]
 )
