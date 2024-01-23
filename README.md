@@ -2,7 +2,7 @@
 
 Waveform based audio player, for SwiftUI
 
-<img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/slidegallery.gif width="100%" align="right" />
+<img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/waavform.gif />
 
 ## Contents
 
@@ -65,6 +65,7 @@ Waavform(views, height: 400, color: .red, scroll: true)
 ```swift
 import SwiftUI
 import Waavform
+
 
 struct ContentView: View {
     var body: some View {
