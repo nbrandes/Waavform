@@ -39,7 +39,7 @@ Waavform(audio: "TheMoon", type: "mp3")
 
 ## Parameters
 
-`Waavform` can be initialized with the following parameters
+`Waavform` can be customized with the following parameters
 
 Required: \
 `audio: String` - name of the audio file \
@@ -67,15 +67,7 @@ import Waavform
 
 struct ContentView: View {
     var body: some View {
-        Waavform(audio: "TheMoon",
-                 type: "mp3",
-                 category: .playback,
-                 hideTransport: false,
-                 playhead: .red
-        )
+        Waavform(audio: "TheMoon", type: "mp3", progress: .blue, playhead: .cyan)
     }
 }
-
 ```
-
-
