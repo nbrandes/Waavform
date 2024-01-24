@@ -16,11 +16,17 @@ private class WaavformModel: ObservableObject {
     
     @Published private(set) var duration: TimeInterval = 1.0
     @Published private(set) var currentTime: TimeInterval = 0.0
+    @Published private(set) var timeNow: CMTime?
     var samples: SampleBuffer
     var player: AVPlayer?
+    var sampleRate: Double?
+    var channelCount: UInt32?
     private var timeObserver: Any?
     
     init(file: AVAudioFile? = nil, url: URL? = nil, category: AVAudioSession.Category) {
+        let format = file?.fileFormat
+        sampleRate = format?.sampleRate
+        channelCount = format?.channelCount
         let stereo = file?.floatChannelData()!
         samples = SampleBuffer(samples: stereo?[0] ?? [0])
         setupAudioSession(category: category)
@@ -29,12 +35,13 @@ private class WaavformModel: ObservableObject {
     }
     
     private func addPeriodicTimeObserver() {
-        let interval = CMTime(value: 1, timescale: 1000)
+        let interval = CMTime(value: 1, timescale: 10)
         timeObserver = player?.addPeriodicTimeObserver(
             forInterval: interval,
             queue: .main) { [weak self] time in
             guard let self else { return }
             currentTime = time.seconds
+            timeNow = time
             duration = player?.currentItem?.duration.seconds ?? 0.0
         }
     }
@@ -90,6 +97,7 @@ public struct Waavform: View {
     @State var seekingLocation: Double = 0
     @State var isPlaying: Bool = false
     @State var isScrolling: Bool = false
+    @State var scrollDragOffset = 0
     
     var cursor: Color = .blue
     var playhead: Color = .red
@@ -100,7 +108,6 @@ public struct Waavform: View {
     var control: Color = .black
     var showTransport: Bool = true
     var showScroll: Bool = true
-    
     
     var playheadPosition: CGFloat {
         return CGFloat(model.progress * size.width)
@@ -140,17 +147,14 @@ public struct Waavform: View {
         _model = StateObject(wrappedValue: WaavformModel(file: nil, url: nil, category: .playback))
     }
     
-    
-    func getStart() -> Int  {
+    func getStart() -> Int {
         if isScrolling {
             let percentage = model.progress
             let sampleCount = model.samples.count
-            
             let start = Int(
                 (Double(sampleCount) / Double(getLength())) * percentage * Double(getLength())
             )
-            
-            return start - (getLength() / 2)
+            return start - (getLength() / 2) + scrollDragOffset
         }
         return Int(start * Double(model.samples.count - 1))
     }
@@ -273,6 +277,12 @@ public struct Waavform: View {
                                 seekingLocation = gesture.location.x
                                 seekTime = (gesture.location.x / size.width) * model.duration
                                 isSeeking = true
+                            } else {
+                                if isPlaying {
+                                    model.player?.pause()
+                                }
+                                let percentage = gesture.translation.width / size.width
+                                scrollDragOffset = Int(percentage * CGFloat(getLength()))
                             }
                         }
                         .onEnded { gesture in
@@ -280,6 +290,20 @@ public struct Waavform: View {
                                 seekTime = (gesture.location.x / size.width) * model.duration
                                 model.player?.seek(to: CMTimeMakeWithSeconds(seekTime, preferredTimescale: 1))
                                 isSeeking = false
+                            } else {
+                                let percentage = gesture.translation.width / size.width
+                                scrollDragOffset = Int(percentage * CGFloat(getLength()))
+                                if let sampleRate = model.sampleRate {
+                                    let offsetSeconds = Double(scrollDragOffset) / sampleRate * 100
+                                    if let player = model.player, let timeNow = model.timeNow {
+                                        let newTime = timeNow + CMTimeMake(value: Int64(offsetSeconds), timescale: 100)
+                                        model.player?.seek(to: newTime)
+                                    }
+                                }
+                                scrollDragOffset = 0
+                                if isPlaying {
+                                    model.player?.play()
+                                }
                             }
                         }
                 )
@@ -348,6 +372,7 @@ public struct Waavform: View {
     public func play() {
         model.player?.play()
         isPlaying = true
+        scrollDragOffset = 0
     }
     
     public func pause() {
@@ -359,6 +384,7 @@ public struct Waavform: View {
         model.player?.pause()
         model.player?.seek(to: CMTimeMakeWithSeconds(0, preferredTimescale: 1))
         isPlaying = false
+        scrollDragOffset = 0
     }
 }
 
