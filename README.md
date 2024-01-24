@@ -35,6 +35,8 @@ Initialize `Waavform` with the name and the extension of the audio file.
 Waavform(audio: "TheMoon", type: "mp3")
 ```
 
+<img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/scroll_edit_clip.gif />
+
 ## Parameters
 
 `Waavform` can be initialized with the following parameters
@@ -53,7 +55,8 @@ Optional: \
 `control: Color`- play/stop button tint color - (Default .gray) 
                                     
 `category: AVAudioSession.Category` - (Default .playback) - category used for the AVAudioSession \
-`hideTransport: Bool` - (Default false) - show or hide the play/stop controls
+`showTransport: Bool` - (Default true) - show or hide the play/stop controls \
+`showScroll: Bool` - (Default true) - show or hide the linear/scroll control
 
 ## Example
 
@@ -64,7 +67,7 @@ import Waavform
 
 struct ContentView: View {
     var body: some View {
-        Waavform(audio: "Slapbox",
+        Waavform(audio: "TheMoon",
                  type: "mp3",
                  category: .playback,
                  hideTransport: false,

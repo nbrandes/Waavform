@@ -29,7 +29,7 @@ private class WaavformModel: ObservableObject {
     }
     
     private func addPeriodicTimeObserver() {
-        let interval = CMTime(value: 1, timescale: 10)
+        let interval = CMTime(value: 1, timescale: 1000)
         timeObserver = player?.addPeriodicTimeObserver(
             forInterval: interval,
             queue: .main) { [weak self] time in
@@ -89,6 +89,7 @@ public struct Waavform: View {
     @State var isSeeking = false
     @State var seekingLocation: Double = 0
     @State var isPlaying: Bool = false
+    @State var isScrolling: Bool = false
     
     var cursor: Color = .blue
     var playhead: Color = .red
@@ -97,7 +98,9 @@ public struct Waavform: View {
     var timeText: Color = .white
     var timeBg: Color = .black
     var control: Color = .black
-    var hideTransport: Bool = false
+    var showTransport: Bool = true
+    var showScroll: Bool = true
+    
     
     var playheadPosition: CGFloat {
         return CGFloat(model.progress * size.width)
@@ -113,13 +116,15 @@ public struct Waavform: View {
                 timeBg: Color = .black,
                 control: Color = .gray,
                 category: AVAudioSession.Category = .playback,
-                hideTransport: Bool = false) {
+                showTransport: Bool = true,
+                showScroll: Bool = true) {
         do {
             if let url = Bundle.main.url(forResource: audio, withExtension: type) {
                 let file = try AVAudioFile(forReading: url)
                 let theModel = WaavformModel(file: file, url: url, category: category)
                 _model = StateObject(wrappedValue: theModel)
-                self.hideTransport = hideTransport
+                self.showTransport = showTransport
+                self.showScroll = showTransport
                 self.cursor = cursor
                 self.playhead = playhead
                 self.progress = progress
@@ -135,6 +140,36 @@ public struct Waavform: View {
         _model = StateObject(wrappedValue: WaavformModel(file: nil, url: nil, category: .playback))
     }
     
+    
+    func getStart() -> Int  {
+        if isScrolling {
+            let percentage = model.progress
+            let sampleCount = model.samples.count
+            
+            let start = Int(
+                (Double(sampleCount) / Double(getLength())) * percentage * Double(getLength())
+            )
+            
+            return start - (getLength() / 2)
+        }
+        return Int(start * Double(model.samples.count - 1))
+    }
+    
+    func getLength() -> Int {
+        if isScrolling {
+            // zoom level
+            return 159157
+        }
+        return Int(length * Double(model.samples.count))
+    }
+    
+    func getProgressWidth() -> CGFloat {
+        if isScrolling {
+            return size.width / 2
+        }
+        return CGFloat(model.progress * size.width)
+    }
+    
     public var body: some View {
         VStack {
             VStack {
@@ -142,8 +177,8 @@ public struct Waavform: View {
                     // Full waveform
                     GeometryReader { geo in
                         Waveform(samples: model.samples,
-                                 start: Int(start * Double(model.samples.count - 1)),
-                                 length: Int(length * Double(model.samples.count)))
+                                 start: getStart() ,
+                                 length: getLength())
                         .foregroundColor(progress)
                         .onAppear {
                             size = geo.size
@@ -155,48 +190,67 @@ public struct Waavform: View {
                     
                     // Progress waveform
                     Waveform(samples: model.samples,
-                             start: Int(start * Double(model.samples.count - 1)),
-                             length: Int(length * Double(model.samples.count)))
+                             start: getStart(),
+                             length: getLength())
                     .foregroundColor(backing)
-                    .mask(Rectangle().padding(.leading, CGFloat(
-                        (model.progress * size.width)
-                    )))
+                    .mask(Rectangle().padding(.leading, getProgressWidth()))
                     
                     // Seeking cursor
                     if isSeeking {
-                        Rectangle()
-                            .fill(cursor)
-                            .frame(width: 1, height: size.height)
-                            .position(x: seekingLocation, y: size.height/2)
-                        
-                        Rectangle()
-                            .fill(cursor)
-                            .opacity(0.15)
-                            .frame(width: (seekingLocation - playheadPosition) * 2 , height: size.height)
-                            .position(x: playheadPosition, y: size.height/2)
-                            .mask(Rectangle().padding(.leading, CGFloat(
-                                (model.progress * size.width)
-                            )))
+                        if !isScrolling {
+                            Rectangle()
+                                .fill(cursor)
+                                .frame(width: 1, height: size.height)
+                                .position(x: seekingLocation, y: size.height/2)
+                            
+                            Rectangle()
+                                .fill(cursor)
+                                .opacity(0.15)
+                                .frame(width: (seekingLocation - playheadPosition) * 2 , height: size.height)
+                                .position(x: playheadPosition, y: size.height/2)
+                                .mask(Rectangle().padding(.leading, CGFloat(
+                                    (model.progress * size.width)
+                                )))
+                        }
                     }
                     
                     // Playhead cursor
                     ZStack {
-                        Rectangle()
-                            .fill(playhead)
-                            .frame(width: 1, height: size.height)
-                            .position(x: playheadPosition, y: size.height / 2)
-                        ZStack {
-                            // Current time
+                        if !isScrolling {
                             Rectangle()
-                                .fill(timeBg)
-                                .clipShape(RoundedRectangle(cornerRadius: 4.0))
+                                .fill(playhead)
+                                .frame(width: 1, height: size.height)
+                                .position(x: playheadPosition, y: size.height / 2)
+                            ZStack {
+                                // Current time
+                                Rectangle()
+                                    .fill(timeBg)
+                                    .clipShape(RoundedRectangle(cornerRadius: 4.0))
                                 
-                            Text("\(model.curentTimeString)")
-                                .foregroundColor(timeText)
-                                .font(.footnote)
+                                Text("\(model.curentTimeString)")
+                                    .foregroundColor(timeText)
+                                    .font(.footnote)
+                            }
+                            .frame(width: 50, height: 4)
+                            .position(x: playheadPosition, y: size.height / 2)
+                        } else {
+                            Rectangle()
+                                .fill(playhead)
+                                .frame(width: 1, height: size.height)
+                                .position(x: size.width / 2, y: size.height / 2)
+                            ZStack {
+                                // Current time
+                                Rectangle()
+                                    .fill(timeBg)
+                                    .clipShape(RoundedRectangle(cornerRadius: 4.0))
+                                
+                                Text("\(model.curentTimeString)")
+                                    .foregroundColor(timeText)
+                                    .font(.footnote)
+                            }
+                            .frame(width: 50, height: 4)
+                            .position(x: size.width / 2, y: size.height / 2)
                         }
-                        .frame(width: 50, height: 4)
-                        .position(x: playheadPosition, y: size.height / 2)
                     }
                     
                     ZStack {
@@ -215,26 +269,32 @@ public struct Waavform: View {
                 .gesture(
                     DragGesture()
                         .onChanged { gesture in
-                            seekingLocation = gesture.location.x
-                            seekTime = (gesture.location.x / size.width) * model.duration
-                            isSeeking = true
+                            if !isScrolling {
+                                seekingLocation = gesture.location.x
+                                seekTime = (gesture.location.x / size.width) * model.duration
+                                isSeeking = true
+                            }
                         }
                         .onEnded { gesture in
-                            seekTime = (gesture.location.x / size.width) * model.duration
-                            model.player?.seek(to: CMTimeMakeWithSeconds(seekTime, preferredTimescale: 1))
-                            isSeeking = false
+                            if !isScrolling {
+                                seekTime = (gesture.location.x / size.width) * model.duration
+                                model.player?.seek(to: CMTimeMakeWithSeconds(seekTime, preferredTimescale: 1))
+                                isSeeking = false
+                            }
                         }
                 )
                 .onTapGesture { position in
-                    seekTime = (position.x / size.width) * model.duration
-                    model.player?.seek(to: CMTimeMakeWithSeconds(seekTime, preferredTimescale: 1))
-                    if !isPlaying {
-                        play()
+                    if !isScrolling {
+                        seekTime = (position.x / size.width) * model.duration
+                        model.player?.seek(to: CMTimeMakeWithSeconds(seekTime, preferredTimescale: 1))
+                        if !isPlaying {
+                            play()
+                        }
                     }
                 }
             }
             
-            if !hideTransport {
+            if showTransport {
                 HStack {
                     HStack {
                         if !isPlaying {
@@ -270,10 +330,19 @@ public struct Waavform: View {
                         .font(.title2)
                     }
                     Spacer()
+                    if showScroll {
+                        Button(isScrolling ? "Linear" : "Scroll") {
+                            toggleScroll()
+                        }
+                    }
                 }
             }
         }
         .padding()
+    }
+    
+    public func toggleScroll() {
+        isScrolling = !isScrolling
     }
     
     public func play() {
