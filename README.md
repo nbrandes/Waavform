@@ -44,13 +44,13 @@ Required: \
 `type: String` - extension of the audio file
 
 Optional: \
-`progress: Color` - (Default Color(red: 0.290, green: 0.310, blue: 0.337)) - waavform progress \
-`background: Color` - (Default Color(red: 0.875, green: 0.878, blue: 0.898)) - waavform background \
-`cursor: Color` - (Default .blue) - the selection cursor \
-`playhead: Color` - (Default .red) - the playhead \
-`timeText: Color` - (Default .white) - current time and duration time \
-`timeBg: Color` - (Default .black) - current time and duration time background \
-`control: Color`- (Default .gray) - play/stop button tint
+`progress: Color` - waveform progress color - (Default Color(red: 0.290, green: 0.310, blue: 0.337))  \
+`background: Color` - waveform background color - (Default Color(red: 0.875, green: 0.878, blue: 0.898)) \
+`cursor: Color` - the selection cursor color - (Default .blue) \
+`playhead: Color` - the playhead color - (Default .red) \
+`timeText: Color` - current time and duration time color - (Default .white) \
+`timeBg: Color` - current time and duration time background color - (Default .black) \
+`control: Color`- play/stop button tint color - (Default .gray) 
                                     
 `category: AVAudioSession.Category` - (Default .playback) - category used for the AVAudioSession \
 `hideTransport: Bool` - (Default false) - show or hide the play/stop controls
