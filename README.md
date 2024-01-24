@@ -44,18 +44,16 @@ Required: \
 `type: String` - extension of the audio file
 
 Optional: \
+`progress: Color` - (Default Color(red: 0.290, green: 0.310, blue: 0.337)) - waavform progress \
+`background: Color` - (Default Color(red: 0.875, green: 0.878, blue: 0.898)) - waavform background \
+`cursor: Color` - (Default .blue) - the selection cursor \
+`playhead: Color` - (Default .red) - the playhead \
+`timeText: Color` - (Default .white) - current time and duration time \
+`timeBg: Color` - (Default .black) - current time and duration time background \
+`control: Color`- (Default .gray) - play/stop button tint
+                                    
 `category: AVAudioSession.Category` - (Default .playback) - category used for the AVAudioSession \
-`hideTransport: Bool` - (Default false) - show or hide the playback controls
-
-`cursor: Color` - (Default .blue) - color used for the selection cursor \
-`playhead: Color` - (Default .red) - color used for the playhead \
-`progress: Color` - (Default Color(red: 0.290, green: 0.310, blue: 0.337)) - color used for waavform progress \
-`backing: Color` - (Default Color(red: 0.875, green: 0.878, blue: 0.898)) - color used for waavform background \
- `timeText: Color` - (Default .white) - color used for current and duration time \
-`timeBg: Color` - (Default .black) - color used for current and duration time background \
-`control: Color`- (Default .gray) - color used for transport buttons
-                                    
-                                    
+`hideTransport: Bool` - (Default false) - show or hide the play/stop controls
 
 ## Example
 

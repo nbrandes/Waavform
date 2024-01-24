@@ -105,15 +105,15 @@ public struct Waavform: View {
     
     public init(audio: String,
                 type: String,
-                category: AVAudioSession.Category = .playback,
-                hideTransport: Bool = false,
+                progress: Color = Color(red: 0.290, green: 0.310, blue: 0.337),
+                background: Color = Color(red: 0.875, green: 0.878, blue: 0.898),
                 cursor: Color = .blue,
                 playhead: Color = .red,
-                progress: Color = Color(red: 0.290, green: 0.310, blue: 0.337),
-                backing: Color = Color(red: 0.875, green: 0.878, blue: 0.898),
                 timeText: Color = .white,
                 timeBg: Color = .black,
-                control: Color = .gray) {
+                control: Color = .gray,
+                category: AVAudioSession.Category = .playback,
+                hideTransport: Bool = false) {
         do {
             if let url = Bundle.main.url(forResource: audio, withExtension: type) {
                 let file = try AVAudioFile(forReading: url)
@@ -123,7 +123,7 @@ public struct Waavform: View {
                 self.cursor = cursor
                 self.playhead = playhead
                 self.progress = progress
-                self.backing = backing
+                self.backing = background
                 self.timeText = timeText
                 self.timeBg = timeBg
                 self.control = control
