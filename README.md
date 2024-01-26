@@ -2,7 +2,7 @@
 
 A simple waveform based audio player, for SwiftUI.
 
-<img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/waavform.gif />
+<img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/waavform_linear.png />
 
 ## Contents
 
