@@ -93,6 +93,7 @@ private class WaavformModel: ObservableObject {
 @available(iOS 17.0, *)
 @available(macOS 14.0, *)
 public struct Waavform: View {
+    
     @Environment(\.colorScheme) var colorScheme
     @StateObject fileprivate var model: WaavformModel
     @State var start = 0.0
@@ -239,24 +240,28 @@ public struct Waavform: View {
                         Waveform(samples: model.samples,
                                  start: max(getStart(), 0),
                                  length: getLength())
-                        .foregroundColor(backing)
-                        .onAppear {
-                            size = geo.size
-                        }
-                        .onChange(of: geo.size) {
-                            size = geo.size
-                        }
+                            .foregroundColor(backing)
+                            .onAppear {
+                                size = geo.size
+                            }
+                            .onChange(of: geo.size) {
+                                size = geo.size
+                            }
                     }
-                    
+                    // Separator
+                    Rectangle()
+                        .fill(colorScheme == .dark ? .black : .white)
+                        .mask(alignment: .leading) {
+                            Rectangle().frame(width: max(getProgressWidth(), 0))
+                        }
                     // Progress waveform
                     Waveform(samples: model.samples,
                              start: max(getStart(), 0),
                              length: getLength())
-                    .foregroundColor(progress)
-                    .mask(alignment: .leading) {
-                        Rectangle().frame(width: max(getProgressWidth(), 0))
-                    }
-                    
+                        .foregroundColor(progress)
+                        .mask(alignment: .leading) {
+                            Rectangle().frame(width: max(getProgressWidth(), 0))
+                        }
                     // Seeking cursor
                     if isSeeking {
                         if !isScrolling {
@@ -275,7 +280,6 @@ public struct Waavform: View {
                                 )))
                         }
                     }
-                    
                     // Playhead cursor
                     ZStack {
                         if !isScrolling {
@@ -333,7 +337,6 @@ public struct Waavform: View {
                             }
                         }
                     }
-                    
                     ZStack {
                         // Duration
                         Rectangle()
@@ -346,7 +349,6 @@ public struct Waavform: View {
                     .frame(width: 50, height: 4)
                     .position(x: size.width, y: size.height / 2)
                 }
-                
                 .gesture(
                     DragGesture()
                         .onChanged { gesture in
@@ -475,6 +477,7 @@ public struct Waavform: View {
         scrollDragOffset = 0
     }
 }
+
 
 
 #endif
