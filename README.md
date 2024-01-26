@@ -62,7 +62,7 @@ Optional: \
 (Default .gray) 
                                     
 `category: AVAudioSession.Category` - category used for the AVAudioSession \
-(Default .playback)
+(Default .playback) \
 `showTransport: Bool` - show or hide the play/stop controls \
 (Default true) \
 `showScroll: Bool` - show or hide the linear/scroll control \
