@@ -39,34 +39,35 @@ Waavform(audio: "TheMoon", type: "mp3")
 
 ## Parameters
 
-`Waavform` can be customized with the following parameters
+`Waavform` can be customized with the following parameters 
 <img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/waavform_stacks.PNG width=300 align="right"/>
+
 Required: \
-`audio: String` - name of the audio file \
+`audio: String` - name of the audio file 
+
 `type: String` - extension of the audio file
 
 Optional: \
-`progress: Color` - waveform progress color \
-(Default Color(red: 0.290, green: 0.310, blue: 0.337))  \
-`background: Color` - waveform background color \
-(Default Color(red: 0.875, green: 0.878, blue: 0.898)) \
-`cursor: Color` - the selection cursor color \
-(Default .blue) \
-`playhead: Color` - the playhead color \
-(Default .red) \
-`timeText: Color` - current time and duration time color \
-(Default .white) \
-`timeBg: Color` - current time and duration time background color \
-(Default .black) \
-`control: Color`- play/stop button tint color \
-(Default .gray) 
+`progress: Color` - waveform progress color 
+
+`background: Color` - waveform background color 
+
+`cursor: Color` - the selection cursor color 
+
+`playhead: Color` - the playhead color 
+
+`timeText: Color` - current time and duration time color 
+
+`timeBg: Color` - current time and duration time background color 
+
+`control: Color`- play/stop button tint color 
+
                                     
 `category: AVAudioSession.Category` - category used for the AVAudioSession \
-(Default .playback) \
+
 `showTransport: Bool` - show or hide the play/stop controls \
-(Default true) \
+
 `showScroll: Bool` - show or hide the linear/scroll control \
-(Default true) 
 
 ## Example
 
