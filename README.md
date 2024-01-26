@@ -40,7 +40,7 @@ Waavform(audio: "TheMoon", type: "mp3")
 ## Parameters
 
 `Waavform` can be customized with the following parameters
-
+<img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/scroll_edit_clip.gif width=300 align="right"/>
 Required: \
 `audio: String` - name of the audio file \
 `type: String` - extension of the audio file
@@ -64,10 +64,28 @@ Optional: \
 import SwiftUI
 import Waavform
 
-
 struct ContentView: View {
     var body: some View {
-        Waavform(audio: "TheMoon", type: "mp3", progress: .blue, playhead: .cyan)
+        VStack {
+            Text("The Moon")
+            Text("Uberkazoo")
+                .font(.caption2)
+            Waavform(audio: "TheMoon", type: "mp3", progress: .blue, playhead: .cyan)
+            Text("Body High")
+            Text("Floydwhoelse")
+                .font(.caption2)
+            Waavform(audio: "BodyHigh", type: "mp3", progress: .blue, playhead: .cyan)
+            Text("Blue Goo")
+            Text("GLotus")
+                .font(.caption2)
+            Waavform(audio: "Bluegoo", type: "mp3", progress: .blue, playhead: .cyan)
+        }
+        .listStyle(InsetGroupedListStyle())
     }
 }
+
+#Preview {
+    ContentView()
+}
+
 ```
