@@ -40,7 +40,7 @@ Waavform(audio: "TheMoon", type: "mp3")
 ## Parameters
 
 `Waavform` can be customized with the following parameters
-<img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/scroll_edit_clip.gif width=300 align="right"/>
+<img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/waavform_stacks.PNG width=300 align="right"/>
 Required: \
 `audio: String` - name of the audio file \
 `type: String` - extension of the audio file
