@@ -46,17 +46,27 @@ Required: \
 `type: String` - extension of the audio file
 
 Optional: \
-`progress: Color` - waveform progress color - (Default Color(red: 0.290, green: 0.310, blue: 0.337))  \
-`background: Color` - waveform background color - (Default Color(red: 0.875, green: 0.878, blue: 0.898)) \
-`cursor: Color` - the selection cursor color - (Default .blue) \
-`playhead: Color` - the playhead color - (Default .red) \
-`timeText: Color` - current time and duration time color - (Default .white) \
-`timeBg: Color` - current time and duration time background color - (Default .black) \
-`control: Color`- play/stop button tint color - (Default .gray) 
+`progress: Color` - waveform progress color \
+- (Default Color(red: 0.290, green: 0.310, blue: 0.337))  \
+`background: Color` - waveform background color \
+- (Default Color(red: 0.875, green: 0.878, blue: 0.898)) \
+`cursor: Color` - the selection cursor color \
+- (Default .blue) \
+`playhead: Color` - the playhead color \
+- (Default .red) \
+`timeText: Color` - current time and duration time color \
+- (Default .white) \
+`timeBg: Color` - current time and duration time background color \
+- (Default .black) \
+`control: Color`- play/stop button tint color \
+- (Default .gray) 
                                     
-`category: AVAudioSession.Category` - (Default .playback) - category used for the AVAudioSession \
-`showTransport: Bool` - (Default true) - show or hide the play/stop controls \
-`showScroll: Bool` - (Default true) - show or hide the linear/scroll control
+`category: AVAudioSession.Category` - category used for the AVAudioSession \
+- (Default .playback)
+`showTransport: Bool` - show or hide the play/stop controls \
+ - (Default true) \
+`showScroll: Bool` - show or hide the linear/scroll control \
+- (Default true) 
 
 ## Example
 
@@ -67,20 +77,12 @@ import Waavform
 struct ContentView: View {
     var body: some View {
         VStack {
-            Text("The Moon")
-            Text("Uberkazoo")
-                .font(.caption2)
             Waavform(audio: "TheMoon", type: "mp3", progress: .blue, playhead: .cyan)
-            Text("Body High")
-            Text("Floydwhoelse")
-                .font(.caption2)
-            Waavform(audio: "BodyHigh", type: "mp3", progress: .blue, playhead: .cyan)
-            Text("Blue Goo")
-            Text("GLotus")
-                .font(.caption2)
-            Waavform(audio: "Bluegoo", type: "mp3", progress: .blue, playhead: .cyan)
+            
+            Waavform(audio: "BodyHigh", type: "mp3", progress: .orange, playhead: .cyan)
+            
+            Waavform(audio: "Bluegoo", type: "mp3", progress: .red, playhead: .cyan)
         }
-        .listStyle(InsetGroupedListStyle())
     }
 }
 
