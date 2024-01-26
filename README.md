@@ -47,26 +47,26 @@ Required: \
 
 Optional: \
 `progress: Color` - waveform progress color \
-- (Default Color(red: 0.290, green: 0.310, blue: 0.337))  \
+(Default Color(red: 0.290, green: 0.310, blue: 0.337))  \
 `background: Color` - waveform background color \
-- (Default Color(red: 0.875, green: 0.878, blue: 0.898)) \
+(Default Color(red: 0.875, green: 0.878, blue: 0.898)) \
 `cursor: Color` - the selection cursor color \
-- (Default .blue) \
+(Default .blue) \
 `playhead: Color` - the playhead color \
-- (Default .red) \
+(Default .red) \
 `timeText: Color` - current time and duration time color \
-- (Default .white) \
+(Default .white) \
 `timeBg: Color` - current time and duration time background color \
-- (Default .black) \
+(Default .black) \
 `control: Color`- play/stop button tint color \
-- (Default .gray) 
+(Default .gray) 
                                     
 `category: AVAudioSession.Category` - category used for the AVAudioSession \
-- (Default .playback)
+(Default .playback)
 `showTransport: Bool` - show or hide the play/stop controls \
- - (Default true) \
+(Default true) \
 `showScroll: Bool` - show or hide the linear/scroll control \
-- (Default true) 
+(Default true) 
 
 ## Example
 
