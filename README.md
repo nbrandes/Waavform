@@ -63,11 +63,11 @@ Optional: \
 `control: Color`- play/stop button tint color 
 
                                     
-`category: AVAudioSession.Category` - category used for the AVAudioSession \
+`category: AVAudioSession.Category` - category used for the audio session
 
-`showTransport: Bool` - show or hide the play/stop controls \
+`showTransport: Bool` - show or hide the play/stop controls 
 
-`showScroll: Bool` - show or hide the linear/scroll control \
+`showScroll: Bool` - show or hide the linear/scroll control 
 
 ## Example
 
