@@ -62,12 +62,13 @@ Optional: \
 
 `control: Color`- play/stop button tint color 
 
-                                    
-`category: AVAudioSession.Category` - category used for the audio session
+`category: AVAudioSession.Category` - category used for the session
 
 `showTransport: Bool` - show or hide the play/stop controls 
 
 `showScroll: Bool` - show or hide the linear/scroll control 
+
+`viewOnLoad: ViewType` - which view to display initially (.linear / .scroll)
 
 ## Example
 
@@ -78,9 +79,9 @@ import Waavform
 struct ContentView: View {
     var body: some View {
         VStack {
-            Waavform(audio: "TheMoon", type: "mp3", progress: .blue, playhead: .cyan)
+            Waavform(audio: "TheMoon", type: "mp3", progress: .blue, playhead: .cyan, viewOnLoad: .scroll)
             
-            Waavform(audio: "BodyHigh", type: "mp3", progress: .orange, playhead: .cyan)
+            Waavform(audio: "BodyHigh", type: "mp3", progress: .orange, playhead: .cyan, viewOnLoad: .linear)
             
             Waavform(audio: "Bluegoo", type: "mp3", progress: .red, playhead: .cyan)
         }

@@ -108,6 +108,7 @@ public struct Waavform: View {
     @State var preRollDragPosition: CGFloat = 0.0
     @State var isDragging = false
     
+    var viewOnLoad: ViewType = .linear
     var cursor: Color = .blue
     var playhead: Color = .red
     var progress: Color = .blue
@@ -165,14 +166,8 @@ public struct Waavform: View {
                 self.timeText = timeText
                 self.timeBg = timeBg
                 self.control = control
+                self.viewOnLoad = viewOnLoad
                 
-                
-//                switch viewOnLoad {
-//                case .linear:
-//                    isScrolling = false
-//                case .scroll:
-//                    isScrolling = true
-//                }
                 return
             }
         } catch {
@@ -347,7 +342,7 @@ public struct Waavform: View {
                             .font(.footnote)
                     }
                     .frame(width: 50, height: 4)
-                    .position(x: size.width, y: size.height / 2)
+                    .position(x: size.width - 24, y: size.height / 2)
                 }
                 .gesture(
                     DragGesture()
@@ -447,9 +442,15 @@ public struct Waavform: View {
                 }
             }
         }
-        .padding()
         .onReceive(NotificationCenter.default.publisher(for: AVPlayerItem.didPlayToEndTimeNotification)) { _ in
             self.stop()
+        }
+        .onAppear() {
+            if viewOnLoad == .scroll {
+                play()
+                stop()
+                toggleScroll()
+            }
         }
     }
     
@@ -477,7 +478,5 @@ public struct Waavform: View {
         scrollDragOffset = 0
     }
 }
-
-
 
 #endif
