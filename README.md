@@ -8,8 +8,8 @@ A simple waveform based audio player, for SwiftUI.
 
 - [Add the Package](#package)
 - [Usage](#usage)
-- [Functions](#functions)
 - [Parameters](#parameters)
+- [Functions](#functions)
 - [Examples](#examples)
 
 ## Package
