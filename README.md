@@ -38,32 +38,6 @@ Waavform(audio: "TheMoon", type: "mp3")
 
 <img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/scroll_edit_clip.gif />
 
-## Functions
-
-Play
-```swift
-play()
-```
-Start playing the audio
-
-Pause
-```swift
-pause()
-```
-Pause the audio
-
-Stop
-```swift
-stop()
-```
-Stop the audio and go to the beginning
-
-ToggleView
-Pause
-```swift
-toggleView()
-```
-Switch between scroll/linear views
 
 ## Parameters
 
@@ -98,7 +72,37 @@ Optional: \
 
 `viewOnLoad: ViewType` - which view to display initially (.linear / .scroll)
 
-## Example
+
+
+## Functions
+
+Play
+```swift
+play()
+```
+Start playing the audio
+
+Pause
+```swift
+pause()
+```
+Pause the audio
+
+Stop
+```swift
+stop()
+```
+Stop the audio and go to the beginning
+
+ToggleView
+```swift
+toggleView()
+```
+Switch between scroll/linear views
+
+
+
+## Examples
 
 ```swift
 import SwiftUI
@@ -107,17 +111,48 @@ import Waavform
 struct ContentView: View {
     var body: some View {
         VStack {
-            Waavform(audio: "TheMoon", type: "mp3", progress: .blue, playhead: .cyan, viewOnLoad: .scroll)
-            
-            Waavform(audio: "BodyHigh", type: "mp3", progress: .orange, playhead: .cyan, viewOnLoad: .linear)
-            
-            Waavform(audio: "Bluegoo", type: "mp3", progress: .red, playhead: .cyan)
+            Waavform(audio: "Song1", type: "mp3", progress: .blue, playhead: .cyan, viewOnLoad: .scroll)
+            Waavform(audio: "Song2", type: "mp3", progress: .orange, playhead: .cyan, viewOnLoad: .linear)
+            Waavform(audio: "Song3", type: "mp3", progress: .red, playhead: .cyan)
         }
     }
 }
+```
 
-#Preview {
-    ContentView()
+Shows how to use `Waavform` with custom playbak controls
+
+```swift
+import SwiftUI
+import Waavform
+
+struct ContentView: View {
+    @State var wave : Waavform?
+    var body: some View {
+        VStack {
+            wave
+            HStack {
+                Button("Play") {
+                    wave?.play()
+                }
+                .buttonStyle(.borderedProminent)
+                Button("Pause") {
+                    wave?.pause()
+                }
+                .buttonStyle(.borderedProminent)
+                Button("Stop") {
+                    wave?.stop()
+                }
+                .buttonStyle(.borderedProminent)
+                Button("Mode") {
+                    wave?.toggleView()
+                }
+                .buttonStyle(.borderedProminent)
+            }
+        }
+        .padding()
+        .task {
+            wave = Waavform(audio: song.name, type: song.type, playhead: .cyan, showControls: false, viewOnLoad: .scroll)
+        }
+    }
 }
-
 ```
