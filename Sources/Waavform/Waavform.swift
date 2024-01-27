@@ -17,6 +17,7 @@ private class WaavformModel: ObservableObject {
     @Published private(set) var duration: TimeInterval = 1.0
     @Published private(set) var currentTime: TimeInterval = 0.0
     @Published private(set) var timeNow: CMTime?
+    
     var samples: SampleBuffer
     var player: AVPlayer?
     var sampleRate: Double?
@@ -95,7 +96,7 @@ private class WaavformModel: ObservableObject {
 public struct Waavform: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @StateObject fileprivate var model: WaavformModel
+    @ObservedObject fileprivate var model: WaavformModel
     @State var start = 0.0
     @State var length = 1.0
     @State var size = CGSize(width: 1.0, height: 2.0)
@@ -116,8 +117,8 @@ public struct Waavform: View {
     var timeText: Color = .white
     var timeBg: Color = .black
     var control: Color = .black
-    var showTransport: Bool = true
-    var showScroll: Bool = true
+    var canvas: Color? = nil
+    var showControls: Bool = true
     
     var preRollSamples: Int {
         return getLength() / 2
@@ -148,17 +149,15 @@ public struct Waavform: View {
                 timeText: Color = .white,
                 timeBg: Color = .black,
                 control: Color = .gray,
+                canvas: Color? = nil,
                 category: AVAudioSession.Category = .playback,
-                showTransport: Bool = true,
-                showScroll: Bool = true,
+                showControls: Bool = true,
                 viewOnLoad: ViewType = .linear) {
         do {
             if let url = Bundle.main.url(forResource: audio, withExtension: type) {
                 let file = try AVAudioFile(forReading: url)
-                let theModel = WaavformModel(file: file, url: url, category: category)
-                _model = StateObject(wrappedValue: theModel)
-                self.showTransport = showTransport
-                self.showScroll = showTransport
+                _model = ObservedObject(wrappedValue: WaavformModel(file: file, url: url, category: category))
+                self.showControls = showControls
                 self.cursor = cursor
                 self.playhead = playhead
                 self.progress = progress
@@ -166,14 +165,14 @@ public struct Waavform: View {
                 self.timeText = timeText
                 self.timeBg = timeBg
                 self.control = control
+                self.canvas = canvas
                 self.viewOnLoad = viewOnLoad
-                
                 return
             }
         } catch {
             print("Error initializing Waavform")
         }
-        _model = StateObject(wrappedValue: WaavformModel(file: nil, url: nil, category: .playback))
+        _model = ObservedObject(wrappedValue: WaavformModel(file: nil, url: nil, category: .playback))
     }
     
     func preRoll() -> Int {
@@ -243,12 +242,21 @@ public struct Waavform: View {
                                 size = geo.size
                             }
                     }
-                    // Separator
-                    Rectangle()
-                        .fill(colorScheme == .dark ? .black : .white)
-                        .mask(alignment: .leading) {
-                            Rectangle().frame(width: max(getProgressWidth(), 0))
-                        }
+                    // Canvas
+                    
+                    if let canvas = canvas {
+                        Rectangle()
+                            .fill(canvas)
+                            .mask(alignment: .leading) {
+                                Rectangle().frame(width: max(getProgressWidth(), 0))
+                            }
+                    } else {
+                        Rectangle()
+                            .fill(colorScheme == .dark ? .black : .white)
+                            .mask(alignment: .leading) {
+                                Rectangle().frame(width: max(getProgressWidth(), 0))
+                            }
+                    }
                     // Progress waveform
                     Waveform(samples: model.samples,
                              start: max(getStart(), 0),
@@ -287,7 +295,6 @@ public struct Waavform: View {
                                 Rectangle()
                                     .fill(timeBg)
                                     .clipShape(RoundedRectangle(cornerRadius: 4.0))
-                                
                                 Text("\(model.curentTimeString)")
                                     .foregroundColor(timeText)
                                     .font(.footnote)
@@ -305,7 +312,6 @@ public struct Waavform: View {
                                     Rectangle()
                                         .fill(timeBg)
                                         .clipShape(RoundedRectangle(cornerRadius: 4.0))
-                                    
                                     Text("\(model.curentTimeString)")
                                         .foregroundColor(timeText)
                                         .font(.footnote)
@@ -398,7 +404,7 @@ public struct Waavform: View {
                 }
             }
             
-            if showTransport {
+            if showControls {
                 HStack {
                     HStack {
                         if !isPlaying {
@@ -434,16 +440,17 @@ public struct Waavform: View {
                         .font(.title2)
                     }
                     Spacer()
-                    if showScroll {
-                        Button(isScrolling ? "Linear" : "Scroll") {
-                            toggleScroll()
-                        }
+                    Button(isScrolling ? "Linear" : "Scroll") {
+                        toggleScroll()
                     }
                 }
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: AVPlayerItem.didPlayToEndTimeNotification)) { _ in
             self.stop()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name(rawValue: "ToggleView"))) { _ in
+            self.toggleScroll()
         }
         .onAppear() {
             if viewOnLoad == .scroll {
@@ -454,7 +461,11 @@ public struct Waavform: View {
         }
     }
     
-    public func toggleScroll() {
+    public func toggleView() {
+        NotificationCenter.default.post(name: Notification.Name("ToggleView"), object: nil)
+    }
+    
+    private func toggleScroll() {
         isScrolling = !isScrolling
     }
     

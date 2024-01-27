@@ -8,6 +8,7 @@ A simple waveform based audio player, for SwiftUI.
 
 - [Add the Package](#package)
 - [Usage](#usage)
+- [Functions](#functions)
 - [Parameters](#parameters)
 - [Example](#example)
 
@@ -36,6 +37,33 @@ Waavform(audio: "TheMoon", type: "mp3")
 ```
 
 <img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/scroll_edit_clip.gif />
+
+## Functions
+
+Play
+```swift
+play()
+```
+Start playing the audio
+
+Pause
+```swift
+pause()
+```
+Pause the audio
+
+Stop
+```swift
+stop()
+```
+Stop the audio and go to the beginning
+
+ToggleView
+Pause
+```swift
+toggleView()
+```
+Switch between scroll/linear views
 
 ## Parameters
 
