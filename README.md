@@ -10,7 +10,7 @@ A simple waveform based audio player, for SwiftUI.
 - [Usage](#usage)
 - [Functions](#functions)
 - [Parameters](#parameters)
-- [Examples](#examples
+- [Examples](#examples)
 
 ## Package
 
