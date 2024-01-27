@@ -75,22 +75,22 @@ Optional: \
 
 ## Functions
 
-Play - Start playing the audio
+Play - start playing the audio
 ```swift
 play()
 ```
 
-Pause - Pause the audio
+Pause - pause the audio
 ```swift
 pause()
 ```
 
-Stop - Stop the audio and go to the beginning
+Stop - stop the audio and go to the beginning
 ```swift
 stop()
 ```
 
-ToggleView - Switch between scroll/linear views
+ToggleView - switch between scroll or linear views
 ```swift
 toggleView()
 ```
