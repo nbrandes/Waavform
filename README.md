@@ -98,6 +98,8 @@ toggleView()
 
 ## Examples
 
+An example of three players stacked vertically. 
+
 ```swift
 import SwiftUI
 import Waavform
@@ -113,7 +115,7 @@ struct ContentView: View {
 }
 ```
 
-Shows how to use `Waavform` with custom playbak controls
+Shows how to use `Waavform` with custom playback controls.
 
 ```swift
 import SwiftUI
