@@ -225,6 +225,13 @@ public struct Waavform: View {
         return CGFloat(model.progress * size.width)
     }
     
+    var currentTimePosition: CGFloat {
+        if playheadPosition < 24 {
+            return 24
+        }
+        return playheadPosition
+    }
+    
     public var body: some View {
         VStack {
             VStack {
@@ -234,13 +241,13 @@ public struct Waavform: View {
                         Waveform(samples: model.samples,
                                  start: max(getStart(), 0),
                                  length: getLength())
-                            .foregroundColor(backing)
-                            .onAppear {
-                                size = geo.size
-                            }
-                            .onChange(of: geo.size) {
-                                size = geo.size
-                            }
+                        .foregroundColor(backing)
+                        .onAppear {
+                            size = geo.size
+                        }
+                        .onChange(of: geo.size) {
+                            size = geo.size
+                        }
                     }
                     // Canvas
                     
@@ -317,7 +324,7 @@ public struct Waavform: View {
                                         .font(.footnote)
                                 }
                                 .frame(width: 50, height: 4)
-                                .position(x: playheadPosition, y: size.height / 2)
+                                .position(x: currentTimePosition, y: size.height / 2)
                             } else {
                                 Rectangle()
                                     .fill(playhead)
