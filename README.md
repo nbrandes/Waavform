@@ -1,6 +1,6 @@
 # Waavform
 
-A simple waveform based audio player, for SwiftUI.
+A waveform based audio player, for SwiftUI.
 
 <img src=https://raw.githubusercontent.com/nbrandes/Waavform/main/Docs/Media/waavform_linear.png />
 
@@ -52,6 +52,8 @@ Optional: \
 `progress: Color` - waveform progress color 
 
 `background: Color` - waveform background color 
+
+`canvas: Color` - color displayed behind the waveform
 
 `cursor: Color` - the selection cursor color 
 
